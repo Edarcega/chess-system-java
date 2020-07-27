@@ -84,7 +84,8 @@ public class ChessMatch {
 	}
 
 	private Piece makeMove(Position source, Position target) {
-		Piece p = board.removePece(source);
+		ChessPiece p = (ChessPiece) board.removePece(source);
+		p.increaseMoveCount();
 		Piece capuredPiece = board.removePece(target);
 		board.placePiece(p, target);
 
@@ -97,7 +98,8 @@ public class ChessMatch {
 	}
 
 	private void undoMove(Position source, Position target, Piece capturedPiece) {
-		Piece p = board.removePece(target);
+		ChessPiece p = (ChessPiece) board.removePece(target);
+		p.decreaseMoveCount();
 		board.placePiece(p, source);
 
 		if (capturedPiece != null) {
@@ -165,8 +167,9 @@ public class ChessMatch {
 		if (!testCheck(color)) {
 			return false;
 		}
-		
-		List<Piece> list = piecessOnTheBoard.stream().filter(x -> ((ChessPiece) x).getColor() == color).collect(Collectors.toList());
+
+		List<Piece> list = piecessOnTheBoard.stream().filter(x -> ((ChessPiece) x).getColor() == color)
+				.collect(Collectors.toList());
 
 		for (Piece p : list) {
 			boolean[][] mat = p.possibleMoves();
