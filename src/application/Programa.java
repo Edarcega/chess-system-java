@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+
+import com.sun.source.tree.WhileLoopTree;
+
 import chess.ChessException;
 import chess.ChessMatch;
 import chess.ChessPiece;
@@ -43,7 +46,12 @@ public class Programa {
 				
 				if (chessMatch.getPromoted() != null) {
 					System.out.print("Enter piece for promotion (B/N/R/Q): ");
-					String type = sc.nextLine();
+					String type = sc.nextLine().toUpperCase();
+					
+					while (!type.equals("B") && !type.equals("N") && !type.equals("R") && !type.equals("Q")) {
+						System.out.print("Invalid valure! Enter piece for promotion (B/N/R/Q): ");
+						type = sc.nextLine().toUpperCase();
+					}
 					chessMatch.replacePromotedPiece(type);
 				}
 				
